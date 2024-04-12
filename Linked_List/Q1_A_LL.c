@@ -88,9 +88,52 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
-{
-	/* add your code here */
+int insertSortedLL(LinkedList* ll, int item) {
+	//현재 코드는 존재하는 아이템에 대한 예외처리가 제대로 이루어져있지 않음.
+	if (ll->head == NULL) {
+		ll->head = malloc(sizeof(ListNode));
+		ll->head->next = NULL;
+		ll->head->item = item;
+		ll->size++;
+		return 0;
+	}
+
+	int index = 0;
+	ListNode* prev = NULL;
+	ListNode* current = ll->head;
+	ListNode* new_Node = malloc(sizeof(ListNode));
+	new_Node->item = item;
+	while (current != NULL) {
+		if (current->item == item) {
+			// 중복된 아이템이 있을 경우 처리
+			free(new_Node);
+			return -1;
+		}
+		else if (current->item > item) {
+			// 현재 노드보다 큰 아이템을 찾았을 경우 삽입
+			if (prev == NULL) {
+				// 리스트의 맨 앞에 삽입하는 경우
+				new_Node->next = ll->head;
+				ll->head = new_Node;
+			}
+			else {
+				// 중간에 삽입하는 경우
+				prev->next = new_Node;
+				new_Node->next = current;
+			}
+			ll->size++;
+			return index;
+		}
+		// 다음 노드로 이동
+		prev = current;
+		current = current->next;
+		index++;
+	}
+	// 리스트의 끝에 도달했을 경우에도 사이즈를 올려주어야한다.
+	prev->next = new_Node;
+	new_Node->next = NULL;
+	ll->size++;
+	return index;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
