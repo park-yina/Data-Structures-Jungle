@@ -101,9 +101,21 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
+void alternateMergeLinkedList(LinkedList* ll1, LinkedList* ll2)
 {
-    /* add your code here */
+	ListNode* l1_current = ll1->head; // ll1의 현재 노드
+	ListNode* l2_current = ll2->head; // ll2의 현재 노드
+	//malloc을 통해 할당하면 기존의 자료가 날아가니까 조심해야한다.
+	while (l1_current!='\0' && l2_current != '\0') {
+		//NULL로 하면 오류가 일어나는데 왜 당당하게 널을 썼을까? 이나씨
+		ll2->head = l2_current->next;
+		l2_current->next = l1_current->next;
+		l1_current->next = l2_current;
+		l1_current = l1_current->next->next;
+		l2_current = ll2->head;
+		ll1->size++;
+		ll2->size--;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
