@@ -85,11 +85,19 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-void RecursiveReverse(ListNode **ptrHead)
+void RecursiveReverse(ListNode** ptrHead)
 {
-	/* add your code here */
-}
+	ListNode* s = *ptrHead;
+	if (s == NULL || s->next == NULL) return; //마지막 노드 일 때에도 종료에 대한 부분 잘 처리해주어야한다.
 
+	ListNode* e = s->next;
+	RecursiveReverse(&e); 
+
+	s->next->next = s; // e를 기준으로 역순으로 연결
+	s->next = NULL;//s의 다음 번째는 e에게 연결되었으므로 연결을 끊어주어야한다.
+
+	*ptrHead = e;//e가 이제 시작 노드가 됨.
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll){
