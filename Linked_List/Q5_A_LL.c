@@ -99,10 +99,58 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
-void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
+void frontBackSplitLinkedList(LinkedList* ll, LinkedList* resultFrontList, LinkedList* resultBackList)
 {
-	/* add your code here */
+	size_t i = 0;
+	if (ll->size % 2 == 0)
+		i = ll->size / 2; // 짝수인 경우 반으로 나눔
+	else {
+		ll->size = ll->size + 1;
+		i = ll->size / 2; // 홀수인 경우 한 칸 더 이동하여 반으로 나눔
+	}
+
+	if (i == 0) // 리스트가 비어있는 경우
+		return;
+
+	ListNode* current = ll->head;
+	ListNode* container = malloc(sizeof(ListNode));
+	container->item = current->item;
+	container->next = NULL;
+	resultFrontList->head = container;
+	resultFrontList->size++;
+
+	// 앞부분을 복사
+	while (i > 1) { // i가 1일 때는 이미 첫 번째 노드를 복사했으므로 반복에서 제외
+		current = current->next;
+		container->next = malloc(sizeof(ListNode));
+		container = container->next;
+		container->item = current->item;
+		container->next = NULL;
+		resultFrontList->size++;
+		i--;
+	}
+
+	// current를 한 칸 더 이동하여 뒷부분을 복사할 준비
+	current = current->next;
+
+	if (current == NULL) // 리스트가 한 개의 노드만 있는 경우
+		return;
+
+	// 뒷부분을 복사
+	ListNode* back_container = malloc(sizeof(ListNode));
+	back_container->item = current->item;
+	back_container->next = NULL;
+	resultBackList->head = back_container;
+	resultBackList->size++;
+
+	while (current->next != NULL) {
+		current = current->next;
+		back_container->next = malloc(sizeof(ListNode));
+		back_container = back_container->next;
+		back_container->item = current->item;
+		back_container->next = NULL;
+		resultBackList->size++;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
