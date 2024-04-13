@@ -2,7 +2,7 @@
 
 /* CE1007/CZ1007 Data Structures
 Lab Test: Section A - Linked List Questions
-Purpose: Implementing the required functions for Question 2 */
+Purpose: Implementing the required functions for Question 3 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -27,69 +27,52 @@ typedef struct _linkedlist
 //////////////////////// function prototypes /////////////////////////////////////
 
 // You should not change the prototype of this function
-void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2);
+void moveOddItemsToBack(LinkedList *ll);
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
-ListNode *findNode(LinkedList *ll, int index);
+ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
-
 
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
-	LinkedList ll1, ll2;
+	LinkedList ll;
 	int c, i, j;
 	c = 1;
 	//Initialize the linked list 1 as an empty linked list
-	ll1.head = NULL;
-	ll1.size = 0;
+	ll.head = NULL;
+	ll.size = 0;
 
-	//Initialize the linked list 2 as an empty linked list
-	ll2.head = NULL;
-	ll2.size = 0;
 
-	printf("1: Insert an integer to the linked list 1:\n");
-	printf("2: Insert an integer to the linked list 2:\n");
-	printf("3: Create the alternate merged linked list:\n");
+	printf("1: Insert an integer to the linked list:\n");
+	printf("2: Move all odd integers to the back of the linked list:\n");
 	printf("0: Quit:\n");
 
 	while (c != 0)
 	{
-		printf("Please input your choice(1/2/3/0): ");
+		printf("Please input your choice(1/2/0): ");
 		scanf("%d", &c);
 
 		switch (c)
 		{
 		case 1:
-			printf("Input an integer that you want to add to the linked list 1: ");
+			printf("Input an integer that you want to add to the linked list: ");
 			scanf("%d", &i);
-			j = insertNode(&ll1, ll1.size, i);
-			printf("Linked list 1: ");
-			printList(&ll1);
+			j = insertNode(&ll, ll.size, i);
+			printf("The resulting linked list is: ");
+			printList(&ll);
 			break;
 		case 2:
-			printf("Input an integer that you want to add to the linked list 2: ");
-			scanf("%d", &i);
-			j = insertNode(&ll2, ll2.size, i);
-			printf("Linked list 2: ");
-			printList(&ll2);
-			break;
-		case 3:
-		    printf("The resulting linked lists after merging the given linked list are:\n");
-			alternateMergeLinkedList(&ll1, &ll2); // You need to code this function
-			printf("The resulting linked list 1: ");
-			printList(&ll1);
-			printf("The resulting linked list 2: ");
-			printList(&ll2);
-			removeAllItems(&ll1);
-			removeAllItems(&ll2);
+			moveOddItemsToBack(&ll); // You need to code this function
+			printf("The resulting linked list after moving odd integers to the back of the linked list is: ");
+			printList(&ll);
+			removeAllItems(&ll);
 			break;
 		case 0:
-			removeAllItems(&ll1);
-			removeAllItems(&ll2);
+			removeAllItems(&ll);
 			break;
 		default:
 			printf("Choice unknown;\n");
@@ -101,20 +84,32 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void alternateMergeLinkedList(LinkedList* ll1, LinkedList* ll2)
+void moveOddItemsToBack(LinkedList *ll)
 {
-	ListNode* l1_current = ll1->head; // ll1의 현재 노드
-	ListNode* l2_current = ll2->head; // ll2의 현재 노드
-	//malloc을 통해 할당하면 기존의 자료가 날아가니까 조심해야한다.
-	while (l1_current!='\0' && l2_current != '\0') {
-		//NULL로 하면 오류가 일어나는데 왜 당당하게 널을 썼을까? 이나씨
-		ll2->head = l2_current->next;
-		l2_current->next = l1_current->next;
-		l1_current->next = l2_current;
-		l1_current = l1_current->next->next;
-		l2_current = ll2->head;
-		ll1->size++;
-		ll2->size--;
+	ListNode* odd = NULL;
+	ListNode* prev = NULL;
+	odd = ll->head;
+	while (odd != NULL && odd->next != NULL) {
+		if (odd->item % 2 == 1 && odd->next->item % 2 == 0) {
+			//현재에 점검할 odd는 홀수고 그 다음 아이템이 짝수일때
+			if (prev != NULL) {
+				//이전 인덱스의 다음번은 odd의 다음으로 바꾸고(즉한칸 더 밀고)odd의 다음도 odd의 다다음으로 가게 한다.
+				prev->next = odd->next;
+				odd->next = odd->next->next;
+				prev->next->next = odd;
+			}
+			else {
+				//처음으로 등장한 홀수라면
+				ll->head = odd->next;
+				odd->next = odd->next->next;
+				ll->head->next = odd;
+			}
+			odd = ll->head;
+			cur = NULL;
+			continue;
+		}
+		cur = odd;
+		odd = odd->next;
 	}
 }
 
@@ -242,3 +237,4 @@ int removeNode(LinkedList *ll, int index){
 
 	return -1;
 }
+
