@@ -86,7 +86,29 @@ int main()
 
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	ListNode* even = NULL;
+	ListNode* prev = NULL;
+	even = ll->head;
+	while (even != NULL && even->next != NULL) {
+		if (even->item % 2 == 0 && even->next->item % 2 == 1) {
+			if (prev != NULL) {
+				prev->next = even->next;
+				even->next = even->next->next;
+				prev->next->next = even;
+			}
+			else {
+				//처음으로 등장한 홀수라면
+				ll->head = even->next;
+				even->next =even->next->next;
+				ll->head->next = even;
+			}
+			even= ll->head;
+			prev = NULL;
+			continue;
+		}
+		prev = even;
+		even = even->next;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +232,9 @@ int removeNode(LinkedList *ll, int index){
 		ll->size--;
 		return 0;
 	}
+
+	return -1;
+}
 
 	return -1;
 }
