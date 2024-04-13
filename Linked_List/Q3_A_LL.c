@@ -86,7 +86,31 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	ListNode* odd = NULL;
+	ListNode* prev = NULL;
+	odd = ll->head;
+	while (odd != NULL && odd->next != NULL) {
+		if (odd->item % 2 == 1 && odd->next->item % 2 == 0) {
+			//현재에 점검할 odd는 홀수고 그 다음 아이템이 짝수일때
+			if (prev != NULL) {
+				//이전 인덱스의 다음번은 odd의 다음으로 바꾸고(즉한칸 더 밀고)odd의 다음도 odd의 다다음으로 가게 한다.
+				prev->next = odd->next;
+				odd->next = odd->next->next;
+				prev->next->next = odd;
+			}
+			else {
+				//처음으로 등장한 홀수라면
+				ll->head = odd->next;
+				odd->next = odd->next->next;
+				ll->head->next = odd;
+			}
+			odd = ll->head;
+			cur = NULL;
+			continue;
+		}
+		cur = odd;
+		odd = odd->next;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
