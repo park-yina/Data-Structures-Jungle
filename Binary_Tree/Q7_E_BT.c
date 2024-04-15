@@ -100,10 +100,28 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int smallestValue(BTNode *node)
+int smallestValue(BTNode* node)
 {
-	/* add your code here */
+    if (node == NULL) {
+        return -1; 
+    }
+
+    int left_smallest = smallestValue(node->left); // 왼쪽 서브트리의 가장 작은 값
+    int right_smallest = smallestValue(node->right); // 오른쪽 서브트리의 가장 작은 값
+    int smallest = node->item; // 현재 노드의 값
+
+    // 왼쪽 서브트리의 가장 작은 값과 비교
+    if (left_smallest != -1 && left_smallest < smallest) {
+        smallest = left_smallest;
+    }
+    // 오른쪽 서브트리의 가장 작은 값과 비교
+    if (right_smallest != -1 && right_smallest < smallest) {
+        smallest = right_smallest;
+    }
+
+    return smallest;
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 
