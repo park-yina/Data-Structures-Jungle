@@ -98,11 +98,21 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int countOneChildNodes(BTNode *node)
-
+int countOneChildNodes(BTNode* node)
 {
-    /* add your code here */
+    if (node == NULL)
+        return 0;
+
+    int count = 0;
+
+    if (node->right == NULL && node->left != NULL)
+        count = 1;
+    else if (node->right != NULL && node->left == NULL)
+        count = 1;
+
+    return count + countOneChildNodes(node->left) + countOneChildNodes(node->right);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -229,4 +239,3 @@ void removeAll(BTNode **node)
         *node = NULL;
     }
 }
-
