@@ -111,15 +111,29 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void createStackFromLinkedList(LinkedList *ll, Stack *s)
+void createStackFromLinkedList(LinkedList* ll, Stack* s)
 {
-    /* add your code here */
+	if (ll == NULL || ll->head == NULL || s == NULL)
+		return;
+	ListNode* temp;
+	while (!isEmptyStack(s))
+		pop(s);
+	for (int i = 0; i < ll->size; i++) {
+		temp = findNode(ll, i);
+		push(s, temp->item);
+	}
 }
 
-void removeEvenValues(Stack *s)
+void removeEvenValues(Stack* s)
 {
-	/* add your code here */
+	if (isEmptyStack(s))return;
+	int num = 0;
+	num = pop(s);
+	removeEvenValues(s);
+	if (num % 2 != 0)//홀수면 다시 붙인다.
+		push(s, num);
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 
