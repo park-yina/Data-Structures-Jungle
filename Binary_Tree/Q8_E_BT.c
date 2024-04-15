@@ -102,6 +102,19 @@ int main()
 
 int hasGreatGrandchild(BTNode *node)
 {
+    if (node == NULL)return 0;
+    int lef = 0; int rig = 0;
+    lef = hasGreatGrandchild(node->left);
+    rig=hasGreatGrandchild(node->right);
+    if (rig == 3 || lef == 3) {
+        printf("%d ", node->item);
+    }
+    if (lef > rig) {
+        return lef + 1;
+    }
+    else {
+        return rig + 1;
+    }
 	/* add your code here */
 }
 
@@ -230,4 +243,3 @@ void removeAll(BTNode **node)
         *node = NULL;
     }
 }
-
