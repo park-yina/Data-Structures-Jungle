@@ -102,10 +102,44 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////
-int balanced(char *expression)
+int balanced(char* expression)
 {
-/* add your code here */
+	Stack* s = malloc(sizeof(Stack));
+	if (s == NULL) {
+		return 0; 
+	}
+
+	int len = 0;
+	while (expression[len] != '\0') {
+		len++;
+		//strlen을 대용하여 구현
+	}
+
+	for (int i = 0; i < len; i++) {
+		if (expression[i] == '(' || expression[i] == '{' || expression[i] == '[') {
+			push(s, expression[i]);
+		}
+		else if (expression[i] == ')' || expression[i] == '}' || expression[i] == ']') {
+			if (isEmptyStack(s)) {
+				free(s);
+				return 0;
+			}
+			char top = peek(s);
+			if ((expression[i] == ')' && top != '(') ||
+				(expression[i] == ']' && top != '[') ||
+				(expression[i] == '}' && top != '{')) {
+				free(s);
+				return 0; // 스택의 top이 닫힌 괄호와 짝이 맞지 않으면 괄호가 맞지 않는 것으로 처리
+			}
+			pop(s); // 닫힌 괄호와 짝이 맞는 열린 괄호를 스택에서 제거
+		}
+	}
+
+	int result = isEmptyStack(s) ? 1 : 0;
+	free(s); // 메모리 해제
+	return result;
 }
+
 
 ////////////////////////////////////////////////////////////
 
@@ -280,6 +314,10 @@ int removeNode(LinkedList *ll, int index){
 		ll->size--;
 		return 0;
 	}
+
+	return -1;
+}
+
 
 	return -1;
 }
