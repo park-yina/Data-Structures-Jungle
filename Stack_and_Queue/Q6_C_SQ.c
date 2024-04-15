@@ -112,6 +112,13 @@ int main()
 void removeUntil(Stack *s, int value)
 {
 /* add your code here */
+	//아  value앞에 애들 죄다 삭제하는 거구나.
+	while (!isEmptyStack(s)) {
+		if (peek(s) != value)
+			pop(s);
+		else
+			break;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
