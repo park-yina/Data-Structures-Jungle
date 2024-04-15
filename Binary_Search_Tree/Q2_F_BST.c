@@ -90,6 +90,12 @@ int main()
 
 void inOrderTraversal(BSTNode *root)
 {
+	//push pop만 사용가능
+	if (root == NULL)return;
+	inOrderTraversal(root->left);
+	printf("%d ", root->item);
+	inOrderTraversal(root->right);
+	//왼쪽,루트,오른
 	 /* add your code here */
 }
 
@@ -194,3 +200,4 @@ void removeAll(BSTNode **node)
 		*node = NULL;
 	}
 }
+
