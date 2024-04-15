@@ -103,7 +103,15 @@ int main()
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+	
+  //push,pop을 활용하여
+	if(s->ll.size==0||s->ll.size%2!=0)
+		return 0;
+	while (isEmptyStack(s)) {
+		if (pop(s) - pop(s)!=-1)
+			return 0;
+	}
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -254,3 +262,4 @@ void removeAllItems(LinkedList *ll)
 	ll->head = NULL;
 	ll->size = 0;
 }
+
