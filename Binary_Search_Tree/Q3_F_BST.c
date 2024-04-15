@@ -92,6 +92,12 @@ int main()
 void preOrderIterative(BSTNode *root)
 {
 	 /* add your code here */
+	//preOrder의 경우 루트 왼오의 순서이다.
+	if (root == NULL)return;
+	printf("%d ", root->item);
+	preOrderIterative(root->left);
+	preOrderIterative(root->right);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
