@@ -1,4 +1,5 @@
 
+
 //////////////////////////////////////////////////////////////////////////////////
 
 /* CE1007/CZ1007 Data Structures
@@ -93,8 +94,20 @@ int main()
 
 void levelOrderTraversal(BSTNode* root)
 {
+	if (root == NULL)return;
+	Queue q;
+	q.head = q.tail = NULL;
+	enqueue(&q.head, &q.tail, root);
+	while (!isEmpty(q.head)) {
+		BSTNode* cur = dequeue(&q.head, &q.tail);
+		//하나씩 꺼냈으면 출력해야지
+		printf("%d ", cur->item);
+		if (cur->left != NULL)
+			enqueue(&q.head, &q.tail, cur->left);
+		if (cur->right != NULL)
+			enqueue(&q.head, &q.tail, cur->right);
 
-    /* add your code here */
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
