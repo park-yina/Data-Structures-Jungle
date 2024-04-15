@@ -112,7 +112,14 @@ int main()
 
 void reverse(Queue *q)
 {
-/* add your code here */
+	//push pop과 enque deque로만 구현해야함
+	//그러면 먼저 제거를 하고 걔를 리버스 하고 더하고?
+	if (isEmptyQueue(q))
+		return;
+	int item = 0;
+	item = dequeue(q);
+	reverse(q);
+	enqueue(q, item);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,3 +287,4 @@ void removeAllItems(LinkedList *ll)
 	ll->head = NULL;
 	ll->size = 0;
 }
+
