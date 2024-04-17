@@ -121,13 +121,40 @@ void postOrderIterativeS2(BSTNode* root)
 
 /* Given a binary search tree and a key, this function
    deletes the key and returns the new root. Make recursive function. */
-//BSTNode* removeNodeFromTree(BSTNode *root, int value)
-//{
-	//if (root == NULL)return;
-	/* add your code here */
-//}
-///////////////////////////////////////////////////////////////////////////////
+BSTNode* removeNodeFromTree(BSTNode* root, int value)
+{
+	if (root == NULL) return NULL;
+	else if (value < root->item) root->left = removeNodeFromTree(root->left, value);
+	else if (value > root->item) root->right = removeNodeFromTree(root->right, value);
+	else {
+		if (root->left == NULL && root->right == NULL) {
+			free(root);
+			return NULL;
+		}
+		else if (root->left == NULL || root->right == NULL) {
+			BSTNode* temp = (root->left != NULL) ? root->left : root->right;
+			free(root);
+			return temp;
+		}
+		else {
+			BSTNode* temp = findMin(root->right);
+			root->item = temp->item;
+			root->right = removeNodeFromTree(root->right, temp->item);
+		}
+	}
+	return root;
+}
 
+///////////////////////////////////////////////////////////////////////////////
+BSTNode* findMin(BSTNode* node) {
+	if (node == NULL) return NULL;
+	while (node->left != NULL) {
+		node = node->left;
+	}
+	return node;
+}
+
+	
 void insertBSTNode(BSTNode **node, int value){
 	if (*node == NULL)
 	{
